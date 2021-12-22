@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 const Todo = () => {
 
   const columns = [
-    { path: "id", name: "ID" },
+    { path: "id", name: "ID", content: () => <Button variant="danger">Delete</Button> },
     { path: "task", name: "Task" },
     { path: "status", name: "Status" },
   ];
@@ -29,8 +29,9 @@ const Todo = () => {
     dispatch(addTask({id:id, task:task, status:status}))
     // setShow(!show);
   } 
-
+  // console.log("outside",todos)
   return ( 
+    
     <React.Fragment>
       <h1>To Do</h1>
       <Button variant="dark" onClick={() => setShow(!show)}>Add Todo</Button>

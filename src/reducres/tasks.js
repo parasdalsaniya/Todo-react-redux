@@ -9,17 +9,12 @@ const initState = [
 const todos = (state = initState, action) => {
   switch(action.type) {
     case "ADD" :
-      return {
-        state,
-        todos: [...state, action.payload]
-      }
+      console.log(action)
+      return [...state, action.payload]
     
     case "DELETE" :
       const filtered = state.slice(state.indexOf(action.payload),1)
-      return {
-        state,
-        todos: filtered
-      }
+      return filtered
 
     default: return state
   }
