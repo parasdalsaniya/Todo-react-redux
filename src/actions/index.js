@@ -11,3 +11,10 @@ export const deleteTask = (data) => {
     payload: data
   }
 }
+
+export const updateTask = (data) => {
+  return {
+    type: "UPDATE", 
+    payload: data
+  }
+}

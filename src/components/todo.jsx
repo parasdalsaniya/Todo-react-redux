@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 import { Button, Modal, Form, Table } from 'react-bootstrap';
-import { addTask } from '../actions';
+import { addTask, deleteTask, updateTask } from '../actions';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Todo = () => {
 
   const columns = [
-    { path: "id", name: "ID", content: () => <Button variant="danger">Delete</Button> },
+    { path: "id", name: "ID" },
     { path: "task", name: "Task" },
     { path: "status", name: "Status" },
+    { path: "delete", name: "Delete" },
+    { path: "update", name: "Update" }
   ];
 
   const [id, setId] = useState("");
@@ -24,12 +26,27 @@ const Todo = () => {
   const dispatch = useDispatch();
 
   const handleAdd = (e) => {
-    console.log("Addded",todos);
     e.preventDefault();
     dispatch(addTask({id:id, task:task, status:status}))
-    // setShow(!show);
+    setShow(!show);
   } 
-  // console.log("outside",todos)
+
+  const handleDelete = (t) => {
+    dispatch(deleteTask({id:t.id, task:t.task, status:t.status}))
+  }
+
+  const handleUpdate = (t) => {
+    setShow(!show);
+    setId(t.id);
+    setTask(t.task);
+    setStatus(t.status);
+  }
+
+  const handleUpdateRedux = () => {
+    dispatch(updateTask({id:id, task:task, status:status}))
+    setShow(!show);
+  }
+
   return ( 
     
     <React.Fragment>
@@ -47,11 +64,11 @@ const Todo = () => {
             <tbody>
               {todos.map((t) => (
                 <tr key={t.id + t.task}>
-                  {columns.map(c => (
-                    <td key={c.path+t.task}>
-                      {t[c.path]}
-                    </td>
-                  ))}
+                  <td>{t.id}</td>
+                  <td>{t.task}</td>
+                  <td>{t.status}</td>
+                  <td><Button variant='dark' onClick={() => handleDelete(t)}>Delete</Button></td>
+                  <td><Button variant='dark' onClick={() => handleUpdate(t)}>Update</Button></td>
                 </tr>
               ))}
             </tbody>
@@ -80,9 +97,14 @@ const Todo = () => {
             <Form.Control type="text" placeholder="Status" value={status} onChange={e => setStatus(e.target.value)}/>
           </Form.Group>
 
-          <Button variant="primary" onClick={handleAdd}>
+          <Button variant="primary" className={ id==="" && task==="" ? "me-3" : "disabled me-3"} onClick={handleAdd}>
             Save Changes
           </Button>
+
+          <Button variant="primary" className={ id!=="" || task!=="" ? "me-3" : "disabled me-3"} onClick={handleUpdateRedux}>
+            Update
+          </Button>
+
         </Modal.Body>
       </Modal>
 
@@ -91,3 +113,22 @@ const Todo = () => {
 }
  
 export default Todo;
+
+
+/*
+{ 
+  {columns.map(c => (
+    <td key={c.path+t.task}>{ 
+
+     }</td>
+  ))} 
+}
+
+  // function renderCell(t, c) {
+  //   console.log("render", c.btn)
+  //   if(c.btn) return c.btn[t]
+  //   return t[c.path]
+  // }
+
+  // console.log("outside",todos)
+*/
