@@ -1,6 +1,6 @@
 const initState = [
   {
-    id: "1",
+    id: 1,
     task: "Learn Redux",
     status: "pendding"
   }
