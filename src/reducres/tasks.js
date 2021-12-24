@@ -2,14 +2,13 @@ const initState = [
   {
     id: 1,
     task: "Learn Redux",
-    status: "pendding"
+    status: "Pendding"
   }
 ]
 
 const todos = (state = initState, action) => {
   switch(action.type) {
     case "ADD" :
-      // console.log(action)
       return [...state, action.payload]
     
     case "DELETE" :
